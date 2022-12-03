@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          go get .
+          go mod download
 
       - name: Build
         run: go build ./src/server.go
