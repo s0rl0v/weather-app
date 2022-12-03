@@ -21,4 +21,4 @@ RUN chmod +x "/app/server"
 
 EXPOSE 8080
 
-ENTRYPOINT /app/server
+ENTRYPOINT ["/app/server"]
