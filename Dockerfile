@@ -19,4 +19,6 @@ COPY --chown=${uid}:${gid} server .
 # Make entrypoint executable for self-contained apps
 RUN chmod +x "/app/server"
 
+EXPOSE 8080
+
 ENTRYPOINT /app/server
