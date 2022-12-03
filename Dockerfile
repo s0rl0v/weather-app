@@ -1,24 +1,13 @@
-FROM alpine
+# Start by building the application.
+FROM golang:1.18 as build
 
-ARG uid=1000
-ARG gid=3000
+WORKDIR /go/src/app
+COPY . .
 
-WORKDIR /app
+RUN go mod download
+RUN CGO_ENABLED=0 go build -o /go/bin/app
 
-# https://stackoverflow.com/a/49955098
-# https://github.com/brgl/busybox/blob/master/loginutils/adduser.c
-# https://github.com/brgl/busybox/blob/master/loginutils/addgroup.c
-
-RUN addgroup --gid ${gid} app-group && \
-    adduser --uid ${uid} --ingroup app-group --disabled-password app
-
-USER ${uid}:${gid}
-
-COPY --chown=${uid}:${gid} server .
-
-# Make entrypoint executable for self-contained apps
-RUN chmod +x "/app/server"
-
-EXPOSE 8080
-
-ENTRYPOINT ["/app/server"]
+# Now copy it into our base image.
+FROM gcr.io/distroless/static-debian11
+COPY --from=build /go/bin/app /
+CMD ["/app"]

@@ -27,21 +27,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          # Semantic version range syntax or exact version of Go
-          go-version: "1.19.*"
-          cache: true
-          cache-dependency-path: go.sum
-
-      - name: Install dependencies
-        run: |
-          go mod download
-
-      - name: Build
-        run: go build ./src/server.go
-
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
