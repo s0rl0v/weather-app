@@ -14,6 +14,11 @@ THere is GitOps repository for [ArgoCD](/https://github.com/s0rl0v/weather-k8s-d
 
 The app is containerized and pushed to ECR registry via GitHub Actions pipeline, then ArgoCD Image Updater (that continiously monitors application ECR repo) modifies the image to the new one for corresponding environment, thus triggering rollout.
 
+# Branching strategy
+
+This app uses trunk based development - `main` branch for development, `release/*` branches for releases.
+The artifacts built from `main` branch are deployed to `development` environment, `release/*` branches - to `staging` and **tagged** changesets trigger deployment to `production` environment.
+
 # Deployment
 
 ## Prerequisites
