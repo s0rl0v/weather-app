@@ -55,4 +55,3 @@ cd apps-registry && kustomize build | k delete -f-
 ```
 
 2. Execute terraform destroy.
-
