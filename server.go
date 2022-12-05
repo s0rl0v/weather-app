@@ -11,6 +11,7 @@ import (
 )
 
 var apiKey = os.Getenv("OWM_API_KEY")
+var namespace = os.Getenv("ENVIRONMENT")
 
 var weather_template = `
 Temperature in London, Canada is %f C <br/>
@@ -52,11 +53,18 @@ func healthcheck_handler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"status":"ok"}`))
 }
 
+func version_handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(namespace))
+}
+
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", weather_handler)
 	mux.HandleFunc("/ping", ping_handler)
 	mux.HandleFunc("/health", healthcheck_handler)
+	mux.HandleFunc("/version", version_handler)
 
 	server := http.Server{
 		Addr:         ":8080",
