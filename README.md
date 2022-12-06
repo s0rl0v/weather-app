@@ -5,8 +5,18 @@ Simple demo backend that checks weather in London via OpenWeatherAPI, CA on "/" 
 
 The application is called weather-backend and is written in Golang, supports several paths:
 / - returns HTML with current weather in London, CA
+
+```
+~ ❯ curl development.s0rl0v.com             ✘ INT
+
+Temperature in London, Canada is 5.990000 C <br/>
+~ ❯
+```
+
 /ping - returns PONG
 /health - returns JSON with status
+/metrics - http total requests, http request codes and golang metrics exposed by prometheus sdk
+/version - build metadata
 
 Deployment instructions for EKS cluster with NGINX ingress, external secrets and argocd could be found [here](/https://github.com/s0rl0v/weather-infra).
 
