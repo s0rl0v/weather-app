@@ -15,10 +15,15 @@ import (
 	owm "github.com/briandowns/openweathermap"
 )
 
+// Set build metadata with ldflags at build time
+var (
+	environment string
+	version     string
+	build       string
+)
+
 // We need an API key for OpenWeather
 var apiKey = os.Getenv("OWM_API_KEY")
-var namespace = os.Getenv("ENVIRONMENT")
-var gitsha = os.Getenv("GITHUB_SHA")
 
 // Template for response on /
 var weather_template = `
@@ -105,7 +110,7 @@ func healthcheck_handler(w http.ResponseWriter, r *http.Request) {
 func version_handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("%s:%s", namespace, gitsha)))
+	w.Write([]byte(fmt.Sprintf("Environment: %s<br/>Build: %s<br/>Version: %s<br/>", environment, build, version)))
 }
 
 func prometheusMiddleware(next http.Handler) http.Handler {

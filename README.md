@@ -19,6 +19,13 @@ The app is containerized and pushed to ECR registry via GitHub Actions pipeline,
 This app uses trunk based development - `main` branch for development, `release/*` branches for releases.
 The artifacts built from `main` branch are deployed to `development` environment, `release/*` branches - to `staging` and **tagged** changesets trigger deployment to `production` environment.
 
+# Build
+
+```
+# go mod download
+# go run -ldflags "-X main.version=1.0.0 -X 'main.build=$(date)' -X main.version=1" ./main.go
+```
+
 # Deployment
 
 ## Prerequisites
