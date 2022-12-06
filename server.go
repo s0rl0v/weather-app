@@ -18,6 +18,7 @@ import (
 // We need an API key for OpenWeather
 var apiKey = os.Getenv("OWM_API_KEY")
 var namespace = os.Getenv("ENVIRONMENT")
+var gitsha = os.Getenv("GITHUB_SHA")
 
 // Template for response on /
 var weather_template = `
@@ -104,7 +105,7 @@ func healthcheck_handler(w http.ResponseWriter, r *http.Request) {
 func version_handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(namespace))
+	w.Write([]byte(fmt.Sprintf("%s:%s", namespace, gitsha)))
 }
 
 func prometheusMiddleware(next http.Handler) http.Handler {
